@@ -22,7 +22,8 @@ public class ProductHandler {
     }
 
     public Mono<ServerResponse> hello(ServerRequest request) {
-        return ServerResponse.ok().body(BodyInserters.fromObject("Hello World"));
+//        return ServerResponse.ok().body(BodyInserters.fromObject("Hello World"));
+        return Mono.error(new IllegalArgumentException());
     }
 
     public Mono<ServerResponse> findAll(ServerRequest request) {
