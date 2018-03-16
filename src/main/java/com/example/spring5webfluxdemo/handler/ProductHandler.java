@@ -2,6 +2,7 @@ package com.example.spring5webfluxdemo.handler;
 
 import com.example.spring5webfluxdemo.model.Product;
 import com.example.spring5webfluxdemo.repository.ProductRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -50,5 +51,9 @@ public class ProductHandler {
                         Product.class
                 )
         );
+    }
+
+    public Mono<ServerResponse> save(ServerRequest request) {
+        return ServerResponse.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 }
