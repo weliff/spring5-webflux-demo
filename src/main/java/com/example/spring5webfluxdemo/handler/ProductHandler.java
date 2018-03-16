@@ -27,19 +27,11 @@ public class ProductHandler {
         return Mono.error(new IllegalArgumentException());
     }
 
-    public Mono<ServerResponse> findAll(ServerRequest request) {
-        request.principal();
-        Flux<String> publisher = Flux.<String>create(emitter -> {
-            emitter.next("Test");
-            emitter.next("Test");
-            emitter.next("Test");
-            emitter.next("Test");
-            emitter.complete();
-        });
 
+    public Mono<ServerResponse> findAll(ServerRequest request) {
         return ServerResponse
                 .ok()
-                .body(BodyInserters.fromPublisher(productRepository.findAll().log(), Product.class));
+                .body(BodyInserters.fromPublisher(productRepository.findAll().log().map(p -> p.getName()), String.class));
     }
 
 
