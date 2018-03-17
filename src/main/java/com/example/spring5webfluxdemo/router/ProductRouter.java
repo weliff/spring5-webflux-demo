@@ -30,9 +30,10 @@ public class ProductRouter {
                 route(GET("/hello").and(accept(MediaType.APPLICATION_JSON)), productHandler::hello)
                         .andRoute(GET("/{id}"), productHandler::findById)
                         .andRoute(method(GET), productHandler::findAll)
-                        .andRoute(method(POST), productHandler::save);
+                        .andRoute(method(POST).and(accept(MediaType.APPLICATION_JSON)), productHandler::save);
 
         return nest(path("/products"), routes);
+
     }
 
 }

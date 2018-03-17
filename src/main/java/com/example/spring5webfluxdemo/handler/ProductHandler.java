@@ -1,30 +1,31 @@
 package com.example.spring5webfluxdemo.handler;
 
+import com.example.spring5webfluxdemo.handler.validator.RequestValidatorHandler;
 import com.example.spring5webfluxdemo.model.Product;
 import com.example.spring5webfluxdemo.repository.ProductRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.ParallelFlux;
 
-import java.time.Duration;
+import java.net.URI;
 
 @Component
 public class ProductHandler {
 
     private ProductRepository productRepository;
 
-    public ProductHandler(ProductRepository productRepository) {
+    private RequestValidatorHandler requestValidatorHandler;
+
+    public ProductHandler(ProductRepository productRepository, RequestValidatorHandler requestValidatorHandler) {
         this.productRepository = productRepository;
+        this.requestValidatorHandler = requestValidatorHandler;
     }
 
     public Mono<ServerResponse> hello(ServerRequest request) {
-//        return ServerResponse.ok().body(BodyInserters.fromObject("Hello World"));
-        return Mono.error(new IllegalArgumentException());
+        return ServerResponse.ok().body(BodyInserters.fromObject("Hello World"));
+//        return Mono.error(new IllegalArgumentException());
     }
 
 
@@ -46,6 +47,12 @@ public class ProductHandler {
     }
 
     public Mono<ServerResponse> save(ServerRequest request) {
-        return ServerResponse.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return requestValidatorHandler.requireValidBody( productMono -> productMono
+                                .flatMap(productRepository::save)
+                                .flatMap(this::createdResponse), request, Product.class).log();
+    }
+
+    private Mono<ServerResponse> createdResponse(Product p) {
+        return ServerResponse.created(URI.create("/products/" + p.getSku())).build();
     }
 }

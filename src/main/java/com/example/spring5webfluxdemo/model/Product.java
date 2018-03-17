@@ -1,5 +1,6 @@
 package com.example.spring5webfluxdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class Product {
 
+    @JsonIgnore
     @Id
     private String id;
 

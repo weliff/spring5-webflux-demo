@@ -49,8 +49,8 @@ public class Spring5WebfluxDemoApplication {
 		};
 	}
 
-	@Bean
-    @Order(-2)
+//	@Bean
+//    @Order(-2)
 	public WebExceptionHandler handle() {
         return (exchange, ex) -> {
             exchange.getResponse().setStatusCode(HttpStatus.BAD_REQUEST);
