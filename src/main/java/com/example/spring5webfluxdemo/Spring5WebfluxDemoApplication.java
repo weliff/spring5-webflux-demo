@@ -42,14 +42,14 @@ public class Spring5WebfluxDemoApplication {
 		SpringApplication.run(Spring5WebfluxDemoApplication.class, args);
 	}
 
-	@Bean
-	public ApplicationRunner applicationRunner(MongoOperations mongo) {
-		return args-> {
-					mongo.save(new Product(1, "XPTO 1"));
-					mongo.save(new Product(2, "XPTO 2"));
-					mongo.save(new Product(3, "XPTO 3"));
-					mongo.save(new Product(4, "XPTO 4"));
-					mongo.save(new Product(5, "XPTO 5"));
-		};
-	}
+//	@Bean
+//	public ApplicationRunner applicationRunner(MongoOperations mongo) {
+//		return args-> {
+//					mongo.save(new Product(1, "XPTO 1"));
+//					mongo.save(new Product(2, "XPTO 2"));
+//					mongo.save(new Product(3, "XPTO 3"));
+//					mongo.save(new Product(4, "XPTO 4"));
+//					mongo.save(new Product(5, "XPTO 5"));
+//		};
+//	}
 }
