@@ -1,5 +1,6 @@
 package com.example.spring5webfluxdemo.handler.validator;
 
+import com.example.spring5webfluxdemo.config.WebConfig;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -36,17 +37,8 @@ public class RequestValidatorHandler {
     private <T> Mono<ServerResponse> badRequestResponse(Set<ConstraintViolation<T>> violations) {
         return badRequest()
                 .body(Flux.fromIterable(violations).map(c -> {
-                    return  new Error(c.getPropertyPath().toString() + " " + c.getMessage());
-                }), Error.class);
+                    return  new WebConfig.Error("", c.getPropertyPath().toString() + " " + c.getMessage());
+                }), WebConfig.Error.class);
     }
 
-    @Getter
-    class Error {
-
-        private String message;
-
-        public Error(String message) {
-            this.message = message;
-        }
-    }
 }

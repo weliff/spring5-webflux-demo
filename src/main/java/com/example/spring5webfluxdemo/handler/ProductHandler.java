@@ -25,7 +25,7 @@ public class ProductHandler {
 
     public Mono<ServerResponse> hello(ServerRequest request) {
 //        return ServerResponse.ok().body(BodyInserters.fromObject("Hello World"));
-        return Mono.error(new IllegalArgumentException());
+        return Mono.error(new IllegalArgumentException("aconteceu um error"));
     }
 
 

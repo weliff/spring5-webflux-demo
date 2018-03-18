@@ -20,14 +20,15 @@ import reactor.core.publisher.Flux;
 @Configuration
 public class WebConfig {
 
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
+//    @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
     public WebExceptionHandler handle(ObjectMapper objectMapper) throws JsonProcessingException {
         return (ServerWebExchange exchange, Throwable ex) -> {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             try {
-                byte[] bytes = objectMapper.writeValueAsBytes(new Error(HttpStatus.INTERNAL_SERVER_ERROR.toString(),"Falha ao processar pedido"));
+                Error error = new Error(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Falha ao processar pedido");
+                byte[] bytes = objectMapper.writeValueAsBytes(error);
                 DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
                 return response.writeWith(Flux.just(buffer));
             } catch (JsonProcessingException ignored) {}
